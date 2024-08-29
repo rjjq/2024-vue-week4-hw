@@ -38,7 +38,7 @@
           <div class="todoList_items">
             <ul class="todoList_item">
               <router-view
-                :todoList="todoList"
+                :todoList="filteredTodos"
                 @delTodo="delTodo"
                 @toggleStatus="toggleStatus"
               ></router-view>
@@ -52,8 +52,8 @@
 
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 import { useloginStore } from '../../stores/loginStore'
 import { storeToRefs } from 'pinia'
@@ -237,4 +237,18 @@ const delTodo = async (id) => {
     console.log(error)
   }
 }
+
+const route = useRoute()
+const filteredTodos = computed(() => {
+  const routeName = route.name
+
+  if (routeName === 'all') {
+    return todoList.value
+  } else if (routeName === 'completed') {
+    return todoList.value.filter((todo) => todo.status)
+  } else if (routeName === 'pending') {
+    return todoList.value.filter((todo) => !todo.status)
+  }
+  return []
+})
 </script>

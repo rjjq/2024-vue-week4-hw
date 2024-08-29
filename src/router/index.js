@@ -22,15 +22,18 @@ const router = createRouter({
       children: [
         {
           path: 'all',
-          component: () => import('../views/todo/AllTodo.vue')
+          name: 'all',
+          component: () => import('../views/todo/TodoList.vue')
         },
         {
           path: 'pending',
-          component: () => import('../views/todo/PendingTodo.vue')
+          name: 'pending',
+          component: () => import('../views/todo/TodoList.vue')
         },
         {
           path: 'completed',
-          component: () => import('../views/todo/CompletedTodo.vue')
+          name: 'completed',
+          component: () => import('../views/todo/TodoList.vue')
         }
       ]
     },
