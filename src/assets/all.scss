@@ -627,3 +627,8 @@ nav ul a span {
   pointer-events: none; /* 禁用點擊事件 */
   cursor: not-allowed; /* 鼠標樣式 */
 }
+
+.formControls_btnSubmit:disabled {
+  background-color: #ccc; /* 禁用状态的背景色 */
+  cursor: not-allowed; /* 鼠标指针样式 */
+}

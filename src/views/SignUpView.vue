@@ -61,7 +61,13 @@
             autocomplete="new-password"
             required
           />
-          <input class="formControls_btnSubmit" type="button" @click="signUp" value="註冊帳號" />
+          <input
+            class="formControls_btnSubmit"
+            type="button"
+            @click="signUp"
+            value="註冊帳號"
+            :disabled="isLoading"
+          />
           <router-link class="formControls_btnLink" to="/login">登入</router-link>
         </form>
       </div>
@@ -85,12 +91,14 @@ const signUpData = ref({
   confirmPassword: ''
 })
 
+const isLoading = ref(false)
 const signUp = async () => {
   if (signUpData.value.password !== signUpData.value.confirmPassword) {
     Swal.fire('輸入密碼不符，請重新確認')
     return
   }
 
+  isLoading.value = true
   try {
     await axios.post(`${apiUrl}/users/sign_up`, signUpData.value)
     Swal.fire(`${signUpData.value.email}: 註冊成功`).then(() => {
@@ -106,6 +114,8 @@ const signUp = async () => {
     } else {
       Swal.fire(error.response.data.message)
     }
+  } finally {
+    isLoading.value = false
   }
 }
 </script>

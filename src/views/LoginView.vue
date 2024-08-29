@@ -43,7 +43,13 @@
             autocomplete="current-password"
             required
           />
-          <input class="formControls_btnSubmit" type="button" value="登入" @click="signIn" />
+          <input
+            class="formControls_btnSubmit"
+            type="button"
+            value="登入"
+            @click="signIn"
+            :disabled="isLoading"
+          />
           <router-link class="formControls_btnLink" to="/signUp">註冊帳號</router-link>
         </form>
       </div>
@@ -70,8 +76,11 @@ const signInData = ref({
   password: ''
 })
 
+const isLoading = ref(false)
 const router = useRouter()
 const signIn = async () => {
+  isLoading.value = true
+
   try {
     const response = await axios.post(`${apiUrl}/users/sign_in`, signInData.value)
 
@@ -96,6 +105,8 @@ const signIn = async () => {
       title: '登入失敗',
       text: error.response.data.message
     })
+  } finally {
+    isLoading.value = false
   }
 }
 
