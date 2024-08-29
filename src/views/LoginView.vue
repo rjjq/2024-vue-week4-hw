@@ -27,9 +27,10 @@
             placeholder="請輸入 email"
             v-model="signInData.email"
             autocomplete="current-email"
+            @blur="validateEmail"
             required
           />
-          <span>此欄位不可留空</span>
+          <span v-if="showError">此欄位不可留空</span>
           <label class="formControls_label" for="pwd">密碼</label>
           <input
             class="formControls_input"
@@ -96,6 +97,11 @@ const signIn = async () => {
       text: error.response.data.message
     })
   }
+}
+
+const showError = ref(false)
+const validateEmail = () => {
+  showError.value = signInData.value.email.trim() === ''
 }
 
 const getExpDate = (expFromApi) => {
